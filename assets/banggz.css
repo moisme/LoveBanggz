@@ -76,9 +76,6 @@ marquee-component:hover .marquee__wrapper, marquee-component:hover .marquee__con
 .bz-tile__img--base, .bz-single__img, .bz-album__img { filter: saturate(.9); }
 .bz-tile:hover .bz-tile__img--base, .bz-single__art:hover .bz-single__img, .bz-album__cover:hover .bz-album__img { filter: saturate(1); }
 
-/* ---- Newsletter input focus in orange block ---- */
-.bz-newsletter input:focus-visible { outline: 2px solid var(--bz-ink); outline-offset: 2px; }
-
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bz-btn, .bz-btn::after, .bz-link::after, .bz-tile__img, .bz-single__img, .bz-album__img, .menu-list__link::after { transition: none !important; animation: none !important; }
