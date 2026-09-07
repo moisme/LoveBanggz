@@ -1,0 +1,93 @@
+{%- comment -%} Love, Banggz — album hero: cover left, copy + actions right (mirrors reference album block) {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+-%}
+<section
+  class="section bz-album spacing-style"
+  id="bz-album-{{ section.id }}"
+  style="{% render 'spacing-style', settings: s %}; --bz-bg: {{ s.background_color | default: '#E9E5DC' }}; --bz-fg: {{ s.text_color | default: '#2C2C2A' }}; --bz-accent: {{ s.accent_color | default: '#D5532C' }}; --bz-muted: {{ s.muted_color | default: '#6F6B66' }};"
+>
+  <div class="bz-album__inner">
+    <a class="bz-album__cover" href="{{ s.cover_link | default: '#' }}" aria-label="{{ s.title | escape }}">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '400, 600, 800, 1000, 1400', sizes: '(min-width: 990px) 48vw, 92vw', class: 'bz-album__img' }}
+      {%- else -%}
+        <div class="bz-album__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+      <span class="bz-album__cover-hint">{{ s.cover_hover_text }}</span>
+    </a>
+    <div class="bz-album__content">
+      {%- if s.eyebrow != blank -%}<p class="bz-eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2 class="bz-album__title">{{ s.title }}</h2>
+      {%- if s.subtitle != blank -%}<p class="bz-album__sub">{{ s.subtitle }}</p>{%- endif -%}
+      <div class="bz-album__actions">
+        {%- if s.btn1_label != blank -%}<a class="bz-btn bz-btn--primary" href="{{ s.btn1_link }}"><span>{{ s.btn1_label }}</span></a>{%- endif -%}
+        {%- if s.btn2_label != blank -%}<a class="bz-btn bz-btn--secondary" href="{{ s.btn2_link }}" target="_blank" rel="noopener"><span>{{ s.btn2_label }}</span></a>{%- endif -%}
+        {%- if s.btn3_label != blank -%}<a class="bz-link" href="{{ s.btn3_link }}">{{ s.btn3_label }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .bz-album { background: var(--bz-bg); color: var(--bz-fg); }
+  .bz-album__inner {
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin, 16px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: center;
+  }
+  @media (min-width: 990px) {
+    .bz-album__inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
+  }
+  .bz-album__cover { position: relative; display: block; overflow: hidden; background: #D8D2C8; aspect-ratio: 1; }
+  .bz-album__img, .bz-album__placeholder svg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 700ms cubic-bezier(.2,.8,.2,1), filter 500ms ease; }
+  .bz-album__cover:hover .bz-album__img, .bz-album__cover:focus-visible .bz-album__img { transform: scale(1.03); }
+  .bz-album__cover-hint {
+    position: absolute; inset-inline: 0; bottom: 0; padding: 12px 16px;
+    font-family: var(--font-body--family); font-size: 0.75rem; letter-spacing: .12em; text-transform: uppercase;
+    color: #E9E5DC; background: linear-gradient(to top, rgba(44,44,42,.75), rgba(44,44,42,0));
+    opacity: 0; transform: translateY(8px); transition: opacity 300ms ease, transform 300ms ease;
+  }
+  .bz-album__cover:hover .bz-album__cover-hint { opacity: 1; transform: none; }
+  .bz-album__content { display: flex; flex-direction: column; gap: 10px; }
+  .bz-eyebrow { margin: 0; font-family: var(--font-body--family); font-size: 0.75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--bz-muted); }
+  .bz-album__title { margin: 0; font-family: var(--font-heading--family); font-weight: var(--font-heading--weight); font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: .95; letter-spacing: -.02em; }
+  .bz-album__sub { margin: 0; max-width: 42ch; font-size: 0.9375rem; line-height: 1.55; color: var(--bz-fg); }
+  .bz-album__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "LB — Album hero",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Album cover" },
+    { "type": "url", "id": "cover_link", "label": "Cover link" },
+    { "type": "text", "id": "cover_hover_text", "label": "Cover hover text", "default": "Purchase album" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The new album" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Love, Banggz" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Out now" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "btn1_label", "label": "Primary label", "default": "Purchase album" },
+    { "type": "url", "id": "btn1_link", "label": "Primary link" },
+    { "type": "text", "id": "btn2_label", "label": "Secondary label", "default": "Stream now" },
+    { "type": "url", "id": "btn2_link", "label": "Secondary link" },
+    { "type": "text", "id": "btn3_label", "label": "Text link label" },
+    { "type": "url", "id": "btn3_link", "label": "Text link" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#E9E5DC" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#2C2C2A" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#D5532C" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#6F6B66" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "presets": [{ "name": "LB — Album hero" }]
+}
+{% endschema %}
