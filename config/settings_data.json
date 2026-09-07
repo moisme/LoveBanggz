@@ -40,7 +40,7 @@
     "page_width": "narrow",
     "page_transition_enabled": false,
     "transition_to_main_product": false,
-    "card_hover_effect": "none",
+    "card_hover_effect": "subtle-zoom",
     "badge_position": "top-right",
     "badge_corner_radius": 100,
     "badge_sale_background_color": "{{ settings.color_palette.background }}",
@@ -103,7 +103,9 @@
     "color_palette": {
       "background": "#E9E5DC",
       "foreground": "#2C2C2A"
-    }
+    },
+    "show_second_image_on_hover": true,
+    "product_card_carousel": false
   },
   "presets": {
     "Horizon": {

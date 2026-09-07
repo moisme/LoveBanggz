@@ -1,0 +1,45 @@
+{%- comment -%} Love, Banggz — album cover only. No text, no buttons; actions live in the section below. {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+-%}
+<section
+  class="section bz-album spacing-style"
+  id="bz-album-{{ section.id }}"
+  style="{% render 'spacing-style', settings: s %}; --bz-bg: {{ s.background_color | default: '#E9E5DC' }}; --bz-cover-max: {{ s.cover_max_width }}px;"
+>
+  <div class="bz-album__inner">
+    {%- if s.cover_link != blank -%}<a class="bz-album__cover" href="{{ s.cover_link }}" aria-label="{{ s.alt | default: 'Love, Banggz' | escape }}">{%- else -%}<div class="bz-album__cover">{%- endif -%}
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1400, 1600', sizes: '(min-width: 990px) 60vw, 100vw', class: 'bz-album__img', alt: s.alt }}
+      {%- else -%}
+        <div class="bz-album__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+      {%- endif -%}
+    {%- if s.cover_link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .bz-album { background: var(--bz-bg); }
+  .bz-album__inner { max-width: var(--page-width); margin-inline: auto; padding-inline: var(--page-margin, 16px); display: flex; justify-content: center; }
+  .bz-album__cover { display: block; width: 100%; max-width: var(--bz-cover-max, 720px); aspect-ratio: 1; overflow: hidden; background: #D8D2C8; }
+  .bz-album__img, .bz-album__placeholder svg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 700ms cubic-bezier(.2,.8,.2,1); }
+  a.bz-album__cover:hover .bz-album__img, a.bz-album__cover:focus-visible .bz-album__img { transform: scale(1.02); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "LB — Album cover",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Album cover" },
+    { "type": "text", "id": "alt", "label": "Image alt text", "default": "Love, Banggz album cover" },
+    { "type": "url", "id": "cover_link", "label": "Cover link (optional)", "info": "Leave empty for a plain, non-clickable cover." },
+    { "type": "range", "id": "cover_max_width", "label": "Max cover width (desktop)", "min": 400, "max": 1200, "step": 20, "unit": "px", "default": 720 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#E9E5DC" },
+    { "type": "range", "id": "padding-block-start", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "presets": [{ "name": "LB — Album cover" }]
+}
+{% endschema %}

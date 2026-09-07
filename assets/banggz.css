@@ -1,0 +1,82 @@
+/* Love, Banggz — global interaction layer. Palette from the Canva deck:
+   cream #E9E5DC / #D8D2C8, greys #A79D92 #6F6B66, charcoal #2C2C2A, burnt orange #D5532C */
+:root {
+  --bz-cream: #E9E5DC;
+  --bz-cream-2: #D8D2C8;
+  --bz-line: #A79D92;
+  --bz-muted: #6F6B66;
+  --bz-ink: #2C2C2A;
+  --bz-orange: #D5532C;
+  --bz-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ---- Shared button styles used by the LB sections ---- */
+.bz-btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  padding: 13px 22px; font-family: var(--font-body--family); font-size: 0.8125rem; letter-spacing: .04em;
+  text-decoration: none; border: 1px solid transparent; overflow: hidden; isolation: isolate;
+  transition: color 250ms var(--bz-ease), background-color 250ms var(--bz-ease), border-color 250ms var(--bz-ease), transform 250ms var(--bz-ease);
+  cursor: pointer;
+}
+.bz-btn > span { position: relative; z-index: 1; }
+.bz-btn::after {
+  content: ""; position: absolute; inset: 0; transform: scaleX(0); transform-origin: left;
+  transition: transform 350ms var(--bz-ease); z-index: 0;
+}
+.bz-btn:hover::after, .bz-btn:focus-visible::after { transform: scaleX(1); }
+.bz-btn:active { transform: translateY(1px); }
+
+.bz-btn--primary { background: var(--bz-orange); color: var(--bz-cream); border-color: var(--bz-orange); }
+.bz-btn--primary::after { background: var(--bz-ink); }
+.bz-btn--primary:hover { border-color: var(--bz-ink); }
+
+.bz-btn--secondary { background: transparent; color: var(--bz-ink); border-color: var(--bz-ink); }
+.bz-btn--secondary::after { background: var(--bz-ink); }
+.bz-btn--secondary:hover, .bz-btn--secondary:focus-visible { color: var(--bz-cream); }
+
+/* Text link with sliding underline */
+.bz-link {
+  position: relative; display: inline-block; padding-bottom: 2px; font-family: var(--font-body--family);
+  font-size: 0.8125rem; letter-spacing: .04em; color: var(--bz-orange); text-decoration: none;
+}
+.bz-link::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: currentColor;
+  transform: scaleX(1); transform-origin: right; transition: transform 300ms var(--bz-ease);
+}
+.bz-link:hover::after { transform: scaleX(0); transform-origin: right; animation: bz-underline 500ms var(--bz-ease) forwards; }
+@keyframes bz-underline { 0% { transform: scaleX(0); transform-origin: left; } 100% { transform: scaleX(1); transform-origin: left; } }
+
+/* ---- Horizon native buttons: same invert-on-hover feel ---- */
+.button:not(.button-unstyled),
+.button-secondary { transition: background-color 250ms var(--bz-ease), color 250ms var(--bz-ease), border-color 250ms var(--bz-ease), transform 250ms var(--bz-ease); }
+.button:not(.button-secondary, .button-unstyled):hover { background-color: var(--bz-ink); color: var(--bz-cream); }
+.button-secondary:hover { background-color: var(--bz-ink); color: var(--bz-cream); border-color: var(--bz-ink); }
+.button:not(.button-unstyled):active, .button-secondary:active { transform: translateY(1px); }
+
+/* ---- Header menu: animated underline like the reference nav ---- */
+.menu-list__link {
+  position: relative; text-decoration: none; transition: color 200ms var(--bz-ease);
+}
+.menu-list__link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right; transition: transform 300ms var(--bz-ease);
+}
+.menu-list__link:hover::after, .menu-list__link--active::after {
+  transform: scaleX(1); transform-origin: left;
+}
+
+/* ---- Product cards (collection + store grid): zoom + second image already native; add lift-free tint ---- */
+.product-grid__item, .product-card { transition: opacity 250ms var(--bz-ease); }
+.product-grid:hover .product-grid__item:not(:hover) { opacity: .75; }
+
+/* ---- Marquee pauses on hover so quotes are readable ---- */
+marquee-component:hover .marquee__wrapper, marquee-component:hover .marquee__content { animation-play-state: paused; }
+
+/* ---- Images inside LB sections get a gentle desaturate → colour reveal ---- */
+.bz-tile__img--base, .bz-single__img, .bz-album__img { filter: saturate(.9); }
+.bz-tile:hover .bz-tile__img--base, .bz-single__art:hover .bz-single__img, .bz-album__cover:hover .bz-album__img { filter: saturate(1); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bz-btn, .bz-btn::after, .bz-link::after, .bz-tile__img, .bz-single__img, .bz-album__img, .menu-list__link::after { transition: none !important; animation: none !important; }
+}
