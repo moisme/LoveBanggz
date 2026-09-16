@@ -1,4 +1,4 @@
-{%- comment -%} Love, Banggz — stacked equal-width action links under the album cover. {%- endcomment -%}
+{%- comment -%} Love, Banggz — stacked equal-width action links under the album cover. Button styles are self-contained. {%- endcomment -%}
 {%- liquid
   assign s = section.settings
 -%}
@@ -31,7 +31,59 @@
     align-items: center;
     gap: 12px;
   }
-  .bz-links__btn { width: min(var(--bz-links-width, 240px), 100%); text-align: center; }
+  .bz-links .bz-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(var(--bz-links-width, 240px), 100%);
+    padding: 13px 22px;
+    font-family: var(--font-body--family);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    overflow: hidden;
+    isolation: isolate;
+    cursor: pointer;
+    transition: color 250ms cubic-bezier(.2,.8,.2,1), background-color 250ms cubic-bezier(.2,.8,.2,1), border-color 250ms cubic-bezier(.2,.8,.2,1), transform 250ms cubic-bezier(.2,.8,.2,1);
+  }
+  .bz-links .bz-btn > span { position: relative; z-index: 1; }
+  .bz-links .bz-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #2C2C2A;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 350ms cubic-bezier(.2,.8,.2,1);
+    z-index: 0;
+  }
+  .bz-links .bz-btn:hover::after,
+  .bz-links .bz-btn:focus-visible::after { transform: scaleX(1); }
+  .bz-links .bz-btn:active { transform: translateY(1px); }
+
+  .bz-links .bz-btn--primary {
+    background: #D5532C;
+    color: #E9E5DC;
+    border-color: #D5532C;
+  }
+  .bz-links .bz-btn--primary:hover,
+  .bz-links .bz-btn--primary:focus-visible { border-color: #2C2C2A; color: #E9E5DC; }
+
+  .bz-links .bz-btn--secondary {
+    background: transparent;
+    color: #2C2C2A;
+    border-color: #2C2C2A;
+  }
+  .bz-links .bz-btn--secondary:hover,
+  .bz-links .bz-btn--secondary:focus-visible { color: #E9E5DC; border-color: #2C2C2A; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bz-links .bz-btn, .bz-links .bz-btn::after { transition: none !important; }
+  }
 {% endstylesheet %}
 
 {% schema %}
