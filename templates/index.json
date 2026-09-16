@@ -1,21 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "album": {
       "type": "banggz-album",
       "name": "LB — Album cover",
       "settings": {
-        "image": "",
         "alt": "Love, Banggz album cover",
-        "cover_link": "",
+        "cover_link": "shopify://collections/all",
         "cover_max_width": 640,
-        "background_color": "#E9E5DC",
+        "background_color": "#e9e5dc",
         "padding-block-start": 48,
         "padding-block-end": 0
       }
     },
     "links": {
       "type": "banggz-links",
-      "name": "LB — Action links",
       "blocks": {
         "listen": {
           "type": "link",
@@ -36,14 +43,21 @@
           }
         }
       },
-      "block_order": ["listen", "store"],
+      "block_order": [
+        "listen",
+        "store"
+      ],
+      "name": "LB — Action links",
       "settings": {
         "button_width": 240,
-        "background_color": "#E9E5DC",
+        "background_color": "#e9e5dc",
         "padding-block-start": 24,
         "padding-block-end": 64
       }
     }
   },
-  "order": ["album", "links"]
+  "order": [
+    "album",
+    "links"
+  ]
 }
