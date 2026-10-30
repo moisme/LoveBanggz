@@ -1,0 +1,180 @@
+{% doc %}
+  @prompt
+    Create a replacement two-product showcase for Love, Banggz featuring Love, Banggz Tee and Love, Banggz Hoodie. Match the existing storefront style and make the layout work well on mobile and desktop. Keep both products visible, with editable product pickers. Use each product’s actual availability to show a prominent Sold out label and a disabled Sold out purchase button when unavailable, and the normal purchase action when available. Keep images, product names, and prices visible in the sold-out state. Do not hardcode either product as sold out. Make display text editable., MAKE THE SOLD OUT BADGE RED, AND MAKE THE DESIGN OF THE BUTTONS MORE MODERN WHERE THE BUTTONSARE JUST UNDERLINEED AND ARROWS LIKT THE SECTION ABOVE
+{% enddoc %}
+{% doc %}
+  @prompt
+    Create a replacement two-product showcase for Love, Banggz featuring Love, Banggz Tee and Love, Banggz Hoodie. Match the existing storefront style and make the layout work well on mobile and desktop. Keep both products visible, with editable product pickers. Use each product’s actual availability to show a prominent Sold out label and a disabled Sold out purchase button when unavailable, and the normal purchase action when available. Keep images, product names, and prices visible in the sold-out state. Do not hardcode either product as sold out. Make display text editable. Update the sold-out badge to red and restyle actions as minimal underlined text links with right arrows, consistent with the adjacent section.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% assign product_one = block.settings.product_one %}
+{% assign product_two = block.settings.product_two %}
+{% style %}
+  .ai-showcase-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    color: #2c2c2a;
+  }
+  .ai-showcase-{{ ai_gen_id }}__heading {
+    margin: 0 0 22px;
+    font-family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    font-size: clamp(24px, 4vw, 40px);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  .ai-showcase-{{ ai_gen_id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 3vw, 28px);
+  }
+  .ai-showcase-{{ ai_gen_id }}__card { min-width: 0; }
+  .ai-showcase-{{ ai_gen_id }}__media {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #e9e5dc;
+    color: #2c2c2a;
+  }
+  .ai-showcase-{{ ai_gen_id }}__media img,
+  .ai-showcase-{{ ai_gen_id }}__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ai-showcase-{{ ai_gen_id }}__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1;
+    padding: 8px 10px;
+    background: #c62828;
+    color: #ffffff;
+    font: 700 12px/1.2 {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .ai-showcase-{{ ai_gen_id }}__empty {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    text-align: center;
+  }
+  .ai-showcase-{{ ai_gen_id }}__empty svg { max-width: 80%; max-height: 80%; }
+  .ai-showcase-{{ ai_gen_id }}__empty-note { margin: 8px 0 0; font-size: 12px; }
+  .ai-showcase-{{ ai_gen_id }}__info { padding-top: 12px; }
+  .ai-showcase-{{ ai_gen_id }}__title {
+    margin: 0 0 6px;
+    font-family: {{ settings.type_subheading_font.family }}, {{ settings.type_subheading_font.fallback_families }};
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .ai-showcase-{{ ai_gen_id }}__price { margin: 0 0 12px; font-size: 14px; }
+  .ai-showcase-{{ ai_gen_id }}__form { margin: 0; }
+  .ai-showcase-{{ ai_gen_id }}__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: auto;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 4px 0;
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    border-radius: 0;
+    background: transparent;
+    color: #2c2c2a;
+    font: 700 13px/1.3 {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    cursor: pointer;
+  }
+  .ai-showcase-{{ ai_gen_id }}__button::after {
+    content: "→";
+    display: inline-block;
+    font-size: 18px;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .ai-showcase-{{ ai_gen_id }}__button:focus-visible { outline: 3px solid #2c2c2a; outline-offset: 4px; }
+  .ai-showcase-{{ ai_gen_id }}__button[disabled] {
+    color: #2c2c2a;
+    border-bottom-style: dashed;
+    opacity: .65;
+    cursor: not-allowed;
+  }
+  .ai-showcase-{{ ai_gen_id }}__button[disabled]::after { content: ""; }
+  .ai-showcase-{{ ai_gen_id }}__empty-product { padding: 24px; text-align: center; border: 1px solid #2c2c2a; }
+  @media (max-width: 600px) {
+    .ai-showcase-{{ ai_gen_id }}__grid { gap: 10px; }
+    .ai-showcase-{{ ai_gen_id }}__badge { top: 8px; left: 8px; padding: 6px 7px; font-size: 10px; }
+    .ai-showcase-{{ ai_gen_id }}__button { min-height: 38px; font-size: 11px; }
+  }
+{% endstyle %}
+<div class="ai-showcase-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank %}<h2 class="ai-showcase-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>{% endif %}
+  <div class="ai-showcase-{{ ai_gen_id }}__grid">
+    {% for item_index in (1..2) %}
+      {% if item_index == 1 %}{% assign showcase_product = product_one %}{% else %}{% assign showcase_product = product_two %}{% endif %}
+      <article class="ai-showcase-{{ ai_gen_id }}__card">
+        {% if showcase_product != blank %}
+          {% assign selected_variant = showcase_product.selected_or_first_available_variant %}
+          {% unless selected_variant %}{% assign selected_variant = showcase_product.variants.first %}{% endunless %}
+          {% assign product_available = showcase_product.available %}
+          <a class="ai-showcase-{{ ai_gen_id }}__media" href="{{ showcase_product.url }}" aria-label="{{ showcase_product.title | escape }}">
+            {% unless product_available %}<span class="ai-showcase-{{ ai_gen_id }}__badge">{{ block.settings.sold_out_text | escape }}</span>{% endunless %}
+            {% if showcase_product.featured_image %}
+              <img src="{{ showcase_product.featured_image | image_url: width: 900 }}" alt="{{ showcase_product.featured_image.alt | default: showcase_product.title | escape }}" loading="lazy" width="{{ showcase_product.featured_image.width }}" height="{{ showcase_product.featured_image.height }}">
+            {% else %}
+              <div class="ai-showcase-{{ ai_gen_id }}__empty">{{ 'product-apparel-1' | placeholder_svg_tag }}<p class="ai-showcase-{{ ai_gen_id }}__empty-note">Add a product image in the product editor.</p></div>
+            {% endif %}
+          </a>
+          <div class="ai-showcase-{{ ai_gen_id }}__info">
+            <h3 class="ai-showcase-{{ ai_gen_id }}__title">{{ showcase_product.title | escape }}</h3>
+            <p class="ai-showcase-{{ ai_gen_id }}__price">{% if showcase_product.price_varies %}{{ block.settings.from_text | escape }} {% endif %}{{ showcase_product.price | money }}</p>
+            {% if product_available and selected_variant %}
+              <form class="ai-showcase-{{ ai_gen_id }}__form" method="post" action="{{ routes.cart_add_url }}">
+                <input type="hidden" name="id" value="{{ selected_variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button class="ai-showcase-{{ ai_gen_id }}__button" type="submit">{{ block.settings.purchase_text | escape }}</button>
+              </form>
+            {% else %}
+              <button class="ai-showcase-{{ ai_gen_id }}__button" type="button" disabled aria-disabled="true">{{ block.settings.sold_out_button_text | escape }}</button>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="ai-showcase-{{ ai_gen_id }}__empty-product">Choose product {{ item_index }} in the block settings.</div>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Two product showcase",
+  "settings": [
+    { "type": "header", "content": "Products" },
+    { "type": "product", "id": "product_one", "label": "First product" },
+    { "type": "product", "id": "product_two", "label": "Second product" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "header", "content": "Display text" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "SHOP THE COLLECTION" },
+    { "type": "text", "id": "purchase_text", "label": "Available button", "default": "Add to cart" },
+    { "type": "text", "id": "sold_out_text", "label": "Sold out label", "default": "Sold out" },
+    { "type": "text", "id": "sold_out_button_text", "label": "Sold out button", "default": "Sold out" },
+    { "type": "text", "id": "from_text", "label": "Starting price text", "default": "From" }
+  ],
+  "presets": [{ "name": "Two product showcase" }],
+  "tag": null,
+  "class": "two-product-showcase"
+}
+{% endschema %}
